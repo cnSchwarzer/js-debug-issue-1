@@ -66,7 +66,7 @@ async function createWindow() {
     height: 800,
   });
 
-  editorWindow.webContents.openDevTools();
+  //editorWindow.webContents.openDevTools();
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
     await editorWindow.loadURL(process.env.VITE_DEV_SERVER_URL + "editor", { extraHeaders: "Cache-Control: no-cache,no-store" });
@@ -85,7 +85,7 @@ async function createWindow() {
     show: !useOffscreen
   });
   playerWindow.setMenuBarVisibility(false)
-  playerWindow.webContents.openDevTools();
+  //playerWindow.webContents.openDevTools();
 
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298

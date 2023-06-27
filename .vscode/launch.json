@@ -22,6 +22,7 @@
   "configurations": [ 
     {
       "name": "Debug Main Process",
+      "postDebugTask": "Terminate All Tasks",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
@@ -35,12 +36,13 @@
       "envFile": "${workspaceFolder}/.vscode/.debug.env",
       "console": "integratedTerminal"
     },
-    {
+    { 
       "name": "Debug Renderer Process",
+      "preLaunchTask": "Sleep",
       "port": 9229,
       "request": "attach",
       "type": "chrome", 
-      "timeout": 60000,  
+      "timeout": 60000,    
       "skipFiles": [
         "<node_internals>/**",
         "${workspaceRoot}/node_modules/**",

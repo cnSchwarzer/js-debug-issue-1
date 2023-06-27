@@ -26,6 +26,34 @@
           "endsPattern": "^.*\\[startup\\] Electron App.*$"
         }
       }
+    },
+    {
+      "label": "Sleep",
+      "type": "shell",
+      "command": "sleep 3",
+      "windows": {
+        "command": "ping 127.0.0.1 -n 3 > $null"
+      },
+      "group": "none",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new",
+        "close": true
+      }
+    },
+    {
+      "label": "Terminate All Tasks",
+      "command": "echo ${input:terminate}",
+      "type": "shell",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
     }
   ]
 }
