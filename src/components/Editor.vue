@@ -6,7 +6,7 @@ const count = ref(0)
 
 <template>
   <div>
-    Editor
+    Editor 2
   </div>
 </template>
 

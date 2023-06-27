@@ -49,21 +49,27 @@ const indexHtml = join(process.env.DIST, "index.html");
 const preload = join(__dirname, "../preload/index.js");
 const snooze = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+app.commandLine.appendSwitch('v', '1')
+app.commandLine.appendSwitch('log-level', '0')
+app.commandLine.appendSwitch('enable-logging') 
+app.commandLine.appendSwitch('trace-warnings')
+
 async function createWindow() {
   // Editor
   editorWindow = new BrowserWindow({
-    title: "Editor", 
+    title: "Editor",
     webPreferences: {
-      preload
+      preload,
     },
     show: true,
     width: 1000,
     height: 800,
-  });  
+  });
 
+  editorWindow.webContents.openDevTools();
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
-    editorWindow.loadURL(process.env.VITE_DEV_SERVER_URL + "editor"); 
+    await editorWindow.loadURL(process.env.VITE_DEV_SERVER_URL + "editor", { extraHeaders: "Cache-Control: no-cache,no-store" });
   } else {
     editorWindow.loadFile(indexHtml, { hash: "editor" });
   }
@@ -71,18 +77,19 @@ async function createWindow() {
   // Player
   const useOffscreen = false;
   playerWindow = new BrowserWindow({
-    title: "Player", 
+    title: "Player",
     webPreferences: {
       preload,
       offscreen: useOffscreen,
-    }, 
+    },
     show: !useOffscreen
-  }); 
-  playerWindow.setMenuBarVisibility(false) 
+  });
+  playerWindow.setMenuBarVisibility(false)
+  playerWindow.webContents.openDevTools();
 
   if (process.env.VITE_DEV_SERVER_URL) {
     // electron-vite-vue#298
-    playerWindow.loadURL(process.env.VITE_DEV_SERVER_URL + "player");
+    await playerWindow.loadURL(process.env.VITE_DEV_SERVER_URL + "player", { extraHeaders: "Cache-Control: no-cache,no-store" });
     playerWindow.setContentSize(1280, 720);
     // Open devTool if the app is not packaged
   } else {
@@ -96,7 +103,7 @@ async function createWindow() {
   playerWindow.webContents.setFrameRate(60);
   playerWindow.webContents.on("paint", (event, dirty, image) => {
     osr.updateFrame(image.getBitmap(), image.getSize());
-  }); 
+  });
 }
 
 app.whenReady().then(createWindow);

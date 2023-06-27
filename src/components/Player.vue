@@ -2,11 +2,15 @@
 import { ref } from 'vue' 
 
 const count = ref(0)
+
+setInterval(() => {
+  count.value += 1
+}, 2000)
 </script>
 
 <template>
   <div>
-    Player
+    Player {{count}}
   </div>
 </template>
 
